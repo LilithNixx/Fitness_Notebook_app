@@ -1,0 +1,12 @@
+# En Fitness-Notebook/.gitignore
+
+# Node modules para frontend
+tp5-frontend/node_modules/
+
+# Entorno virtual para backend si no está en tp5/.gitignore
+tp5/env/
+
+# Archivos comunes a ignorar
+*.log
+.DS_Store
+.env
