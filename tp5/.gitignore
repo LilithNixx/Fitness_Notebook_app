@@ -1,0 +1,38 @@
+# Ignorar entorno virtual
+env/
+venv/
+ENV/
+.venv/
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración o sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+
+# Archivos de pruebas
+.coverage
+.tox/
+.noseids
+.pytest_cache/
+
+# Archivos de VSCode u otros editores
+.vscode/
+.idea/
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Git
+*.swp
+*.swo
+
+.env

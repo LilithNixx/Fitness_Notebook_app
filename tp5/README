@@ -1,0 +1,64 @@
+Fitness Notebook
+Aplicación web para registrar y seguir el progreso de entrenamiento físico, alimentación, medidas corporales y estado de ánimo. Este proyecto surge para digitalizar el seguimiento que antes se realizaba en hojas de cálculo.
+
+Tecnologías utilizadas
+Backend: Python, FastAPI, SQLAlchemy
+
+Frontend: React (próximamente)
+
+Base de datos: MySQL
+
+Autenticación: JWT
+
+Contenerización: Docker (próximamente)
+
+Funcionalidades principales
+Registro de usuarios
+
+Login con autenticación JWT
+
+Registro y seguimiento de:
+
+Entrenamientos (fecha, ejercicios, repeticiones, peso, etc.)
+
+Alimentación (calorías, proteínas, agua, etc.)
+
+Medidas corporales (peso, brazo, pierna, cintura, etc.)
+
+Estado de ánimo y motivación
+
+Instalación local (backend)
+Clonar el repositorio
+
+
+git clone https://github.com/usuario/repositorio.git
+cd repositorio
+Crear entorno virtual e instalar dependencias
+
+
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+pip install -r requirements.txt
+Crear archivo .env en la raíz del proyecto con las variables de entorno necesarias:
+
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=tu_usuario
+DB_PASSWORD=tu_contraseña
+DB_NAME=fitness_notebook
+SECRET_KEY=tu_clave_super_segura
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+Ejecutar el servidor
+
+
+uvicorn app.main:app --reload
+Acceder a la documentación interactiva
+Abrir en el navegador: http://localhost:8000/docs
+
+Contribuciones
+Este proyecto forma parte de un trabajo práctico universitario, pero está abierto a mejoras y nuevas funcionalidades.
+
+✉️ Para consultas o sugerencias, podés dejar un mensaje o abrir un issue.
+
