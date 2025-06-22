@@ -35,16 +35,20 @@ def crear_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=TokenResponse)
 def login(login_data: LoginRequest, db: Session = Depends(get_db)):
+  
+    print("🚀 Login recibido:", login_data)
    #LoginRequest recibe email y contraseña y se busca el usuario en la base de datos 
     usuario = db.query(models.Usuario).filter(models.Usuario.email == login_data.email).first()
 
     #Se verifica si la contraseña ingresada coincide con la guardada.
     if not usuario or not verificar_contraseña(login_data.contraseña, usuario.contraseña):
         
+        print("❌ Credenciales incorrectas")
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
     
     token = crear_token_de_acceso({"sub": str(usuario.id_usuario)})
     
+    print("✅ Token generado:", token)
     #Se devuelve el token al frontend.
     return {"access_token": token, "token_type": "bearer"}
 

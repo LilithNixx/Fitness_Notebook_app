@@ -5,8 +5,52 @@ from app.models import Entrenamiento
 from app.schemas.entrenamiento import EntrenamientoCreate, EntrenamientoOut
 from app.utils.auth import obtener_usuario_actual
 from typing import List
+from sqlalchemy import func
+
 
 router = APIRouter(prefix="/entrenamientos", tags=["Entrenamientos"])
+
+
+@router.get("/progreso-peso")
+def progreso_peso(db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
+    try:
+        # Hacemos una consulta a la base de datos para obtener, por fecha y ejercicio,
+        # el peso máximo levantado en cada sesión de entrenamiento para el usuario actual.
+        resultados = (
+            db.query(
+                Entrenamiento.fecha,                     # Seleccionamos la fecha del entrenamiento
+                Entrenamiento.ejercicio,                 # Seleccionamos el nombre del ejercicio
+                func.max(Entrenamiento.peso).label("peso_max")  # Calculamos el peso máximo levantado ese día en ese ejercicio
+            )
+            .filter(Entrenamiento.id_usuario == usuario.id_usuario)  # Filtramos por usuario actual
+            .group_by(Entrenamiento.fecha, Entrenamiento.ejercicio)  # Agrupamos resultados por fecha y ejercicio
+            .order_by(Entrenamiento.fecha)                           # Ordenamos por fecha ascendente
+            .all()                                                    # Ejecutamos la consulta y obtenemos todos los resultados
+        )
+
+        # Si no hay resultados, lanzamos un error 404
+        if not resultados:
+            raise HTTPException(status_code=404, detail="No hay datos para este usuario")
+
+        # Organizamos los resultados en un diccionario para facilitar el consumo en frontend
+        data = {}
+        for fecha, ejercicio, peso_max in resultados:
+            if ejercicio not in data:
+                data[ejercicio] = []  # Creamos la lista para ese ejercicio si no existe
+            # Añadimos un objeto con la fecha (como string ISO) y el peso máximo (float)
+            data[ejercicio].append({
+                "fecha": fecha.isoformat(),
+                "peso": float(peso_max)
+            })
+
+        # Devolvemos el diccionario con los datos listos para graficar
+        return data
+
+    except Exception as e:
+        print("Error en progreso_peso:", str(e))
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+
 
 # Crear un nuevo entrenamiento
 @router.post("/", response_model=EntrenamientoOut)
@@ -54,3 +98,5 @@ def eliminar_entrenamiento(entrenamiento_id: int, db: Session = Depends(get_db),
     db.delete(entrenamiento)
     db.commit()
     return {"detalle": "Entrenamiento eliminado correctamente"}
+
+
