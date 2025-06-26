@@ -1,88 +1,88 @@
 // src/components/NavBar.jsx
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function NavBar() {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const navigate = useNavigate();
+
+  const toggleNavbar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
-    // navbar con expansión en lg, fondo oscuro personalizado y texto claro
     <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#2c2c2c" }}>
       <div className="container">
-        {/* Marca / Logo con texto amarillo */}
+        {/* Marca / Logo */}
         <Link
           className="navbar-brand"
           to="/inicio"
-          style={{ color: "#ffd700", fontWeight: "bold" }} // amarillo dorado
+          style={{ color: "#ffd700", fontWeight: "bold" }}
+          onClick={() => setIsCollapsed(true)} // cierra menú al click en logo
         >
           Fitness Notebook
         </Link>
 
-        {/* Botón para colapsar navbar en móviles */}
+        {/* Botón hamburguesa */}
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
-          aria-expanded="false"
+          aria-expanded={!isCollapsed}
           aria-label="Toggle navigation"
-          style={{ borderColor: "#ffd700" }} // borde amarillo
+          style={{ borderColor: "#ffd700" }}
+          onClick={toggleNavbar}
         >
-          {/* Icono hamburguesa, con color amarillo */}
           <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
         </button>
 
-        {/* Links de navegación, colapsables */}
-        <div className="collapse navbar-collapse" id="navbarNav">
+        {/* Menú colapsable */}
+        <div className={`collapse navbar-collapse${isCollapsed ? '' : ' show'}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            {/* Cada NavLink cambia su estilo activo para resaltar */}
-            <li className="nav-item">
-              <NavLink
-                to="/inicio"
-                className={({ isActive }) =>
-                  "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
-                }
-              >
-                Inicio
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/entrenamientos"
-                className={({ isActive }) =>
-                  "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
-                }
-              >
-                Entrenamientos
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/medidas-corporales"
-                className={({ isActive }) =>
-                  "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
-                }
-              >
-                Medidas Corporales
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/estado-animo"
-                className={({ isActive }) =>
-                  "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
-                }
-              >
-                Estado de Ánimo
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/alimentacion"
-                className={({ isActive }) =>
-                  "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
-                }
-              >
-                Alimentación
-              </NavLink>
+            {[
+              { to: "/inicio", label: "Inicio" },
+              { to: "/entrenamientos", label: "Entrenamientos" },
+              { to: "/medidas-corporales", label: "Medidas Corporales" },
+              { to: "/estado-animo", label: "Estado de Ánimo" },
+              { to: "/alimentacion", label: "Alimentación" },
+              { to: "/analisis-entrenamientos", label: "Análisis" },
+            ].map(({ to, label }) => (
+              <li className="nav-item" key={to}>
+                <NavLink
+                  to={to}
+                  className={({ isActive }) =>
+                    "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
+                  }
+                  onClick={() => setIsCollapsed(true)} // cierra menú al click en link
+                >
+                  {label}
+                </NavLink>
+              </li>
+            ))}
+
+            {/* Botón Cerrar sesión */}
+              <li className="nav-item">
+                <button
+                  className="nav-link text-white"
+                  onClick={handleLogout}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    fontSize: "1rem",
+                    fontWeight: 400,
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer"
+                  }}
+                  onMouseOver={(e) => e.target.classList.add("text-warning")}
+                  onMouseOut={(e) => e.target.classList.remove("text-warning")}
+                >
+                  Cerrar sesión
+                </button>
             </li>
           </ul>
         </div>

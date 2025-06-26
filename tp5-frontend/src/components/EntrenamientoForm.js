@@ -1,9 +1,55 @@
-// src/components/EntrenamientoForm.jsx
 import { useState, useEffect } from "react";
 import { crearEntrenamiento, editarEntrenamiento } from "../services/api";
 
-// IMPORTANTE: asegurate de haber incluido Orbitron en index.html o App.css
+// IMPORTANTE: asegurate de incluir Orbitron en index.html o App.css
 // <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+
+const gruposMusculares = {
+  Piernas: [
+    "Sentadillas",
+    "Prensa de piernas",
+    "Prensa a una pierna",
+    "Zancadas",
+    "Extensiones de piernas",
+    "Extensiones de piernas a una pierna",
+    "Curl femoral",
+    "Peso muerto rumano",
+  ],
+  Glúteos: [
+    "Hip Thrust",
+    "Puente de glúteos",
+    "Patada de glúteos",
+    "Abducción de cadera",
+  ],
+  Espalda: [
+    "Remo con barra",
+    "Remo en máquina",
+    "Peso muerto",
+    "Jalón al pecho",
+    "Jalón tras nuca",
+    "Dominadas",
+  ],
+  Pecho: [
+    "Press banca",
+    "Press inclinado",
+    "Press declinado",
+    "Aperturas con mancuernas",
+    "Aperturas en máquina",
+    "Flexiones de brazos",
+  ],
+  Brazos: [
+    "Curl de bíceps con barra",
+    "Curl de bíceps con mancuernas",
+    "Fondos de tríceps",
+    "Extensión de tríceps en polea",
+  ],
+  Hombros: [
+    "Press militar",
+    "Elevaciones laterales",
+    "Elevaciones frontales",
+    "Pájaros para deltoides posteriores",
+  ],
+};
 
 export default function EntrenamientoForm({ entrenamientoEnEdicion, onGuardado }) {
   const [form, setForm] = useState({
@@ -66,12 +112,11 @@ export default function EntrenamientoForm({ entrenamientoEnEdicion, onGuardado }
 
   return (
     <div className="container mt-4">
-      {/* Franja de título con fondo gris oscuro y fuente deportiva */}
       <div style={{ backgroundColor: "#343a40", padding: "10px", borderRadius: "5px" }}>
         <h3
           className="text-center"
           style={{
-            color: "#FFD700", // amarillo
+            color: "#FFD700",
             fontFamily: "'Orbitron', sans-serif",
             margin: 0,
           }}
@@ -80,33 +125,51 @@ export default function EntrenamientoForm({ entrenamientoEnEdicion, onGuardado }
         </h3>
       </div>
 
-      {/* Mensaje de alerta */}
       {mensaje.texto && (
         <div className={`alert alert-${mensaje.tipo} mt-3`} role="alert">
           {mensaje.texto}
         </div>
       )}
 
-      {/* Formulario con campos y validaciones */}
       <form onSubmit={handleSubmit} className="mt-3">
-        {/* Campos de entrada (estándar) */}
         {["fecha", "ejercicio", "series", "repeticiones", "peso"].map((campo, i) => (
           <div className="mb-3" key={i}>
             <label className="form-label text-dark">
               {campo.charAt(0).toUpperCase() + campo.slice(1)} {campo === "peso" && "(kg)"}
             </label>
-            <input
-              type={campo === "fecha" ? "date" : campo === "ejercicio" ? "text" : "number"}
-              name={campo}
-              className={`form-control ${errores[campo] ? "is-invalid" : ""}`}
-              value={form[campo]}
-              onChange={handleChange}
-            />
+
+            {campo === "ejercicio" ? (
+              <select
+                name="ejercicio"
+                className={`form-select ${errores[campo] ? "is-invalid" : ""}`}
+                value={form.ejercicio}
+                onChange={handleChange}
+              >
+                <option value="">Selecciona un ejercicio</option>
+                {Object.entries(gruposMusculares).map(([grupo, ejercicios]) => (
+                  <optgroup label={grupo} key={grupo}>
+                    {ejercicios.map((ej) => (
+                      <option key={ej} value={ej}>
+                        {ej}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            ) : (
+              <input
+                type={campo === "fecha" ? "date" : "number"}
+                name={campo}
+                className={`form-control ${errores[campo] ? "is-invalid" : ""}`}
+                value={form[campo]}
+                onChange={handleChange}
+              />
+            )}
+
             {errores[campo] && <div className="invalid-feedback">{errores[campo]}</div>}
           </div>
         ))}
 
-        {/* Botón de enviar: fondo gris oscuro, letras amarillas */}
         <button
           className="btn"
           style={{
@@ -120,7 +183,6 @@ export default function EntrenamientoForm({ entrenamientoEnEdicion, onGuardado }
           {entrenamientoEnEdicion ? "Actualizar" : "Crear"}
         </button>
 
-        {/* Botón de cancelar con mismo estilo */}
         {entrenamientoEnEdicion && (
           <button
             type="button"
