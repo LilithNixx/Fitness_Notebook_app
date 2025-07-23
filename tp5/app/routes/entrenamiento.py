@@ -6,52 +6,75 @@ from app.schemas.entrenamiento import EntrenamientoCreate, EntrenamientoOut
 from app.utils.auth import obtener_usuario_actual
 from typing import List
 from sqlalchemy import func
-
+from collections import defaultdict
+from app.utils.agrupaciones import obtener_grupo_muscular
 
 router = APIRouter(prefix="/entrenamientos", tags=["Entrenamientos"])
 
-
+#RUTAS ESTÁTICAS
 @router.get("/progreso-peso")
 def progreso_peso(db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
-    try:
-        # Hacemos una consulta a la base de datos para obtener, por fecha y ejercicio,
-        # el peso máximo levantado en cada sesión de entrenamiento para el usuario actual.
-        resultados = (
-            db.query(
-                Entrenamiento.fecha,                     # Seleccionamos la fecha del entrenamiento
-                Entrenamiento.ejercicio,                 # Seleccionamos el nombre del ejercicio
-                func.max(Entrenamiento.peso).label("peso_max")  # Calculamos el peso máximo levantado ese día en ese ejercicio
-            )
-            .filter(Entrenamiento.id_usuario == usuario.id_usuario)  # Filtramos por usuario actual
-            .group_by(Entrenamiento.fecha, Entrenamiento.ejercicio)  # Agrupamos resultados por fecha y ejercicio
-            .order_by(Entrenamiento.fecha)                           # Ordenamos por fecha ascendente
-            .all()                                                    # Ejecutamos la consulta y obtenemos todos los resultados
+    resultados = (
+        db.query(
+            Entrenamiento.fecha,
+            Entrenamiento.ejercicio,
+            func.max(Entrenamiento.peso).label("peso_max")
         )
+        .filter(Entrenamiento.id_usuario == usuario.id_usuario)
+        .group_by(Entrenamiento.fecha, Entrenamiento.ejercicio)
+        .order_by(Entrenamiento.fecha)
+        .all()
+    )
 
-        # Si no hay resultados, lanzamos un error 404
-        if not resultados:
-            raise HTTPException(status_code=404, detail="No hay datos para este usuario")
+    if not resultados:
+        raise HTTPException(status_code=404, detail="No hay datos para este usuario")
 
-        # Organizamos los resultados en un diccionario para facilitar el consumo en frontend
-        data = {}
-        for fecha, ejercicio, peso_max in resultados:
-            if ejercicio not in data:
-                data[ejercicio] = []  # Creamos la lista para ese ejercicio si no existe
-            # Añadimos un objeto con la fecha (como string ISO) y el peso máximo (float)
-            data[ejercicio].append({
-                "fecha": fecha.isoformat(),
-                "peso": float(peso_max)
+    data = {}
+    for fecha, ejercicio, peso_max in resultados:
+        grupo = obtener_grupo_muscular(ejercicio)
+        if grupo not in data:
+            data[grupo] = []
+        data[grupo].append({
+            "fecha": fecha.isoformat(),
+            "peso": float(peso_max)
+        })
+
+    return data
+
+
+@router.get("/volumen")
+def volumen_entrenamiento(db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
+    entrenamientos = db.query(Entrenamiento).filter(
+        Entrenamiento.id_usuario == usuario.id_usuario
+    ).all()
+
+    if not entrenamientos:
+        raise HTTPException(status_code=404, detail="No hay entrenamientos registrados")
+
+    volumen_por_semana_y_grupo = defaultdict(lambda: defaultdict(float))
+
+    for e in entrenamientos:
+        if not e.fecha:
+            continue
+        semana = e.fecha.strftime("%G-W%V")
+        grupo = obtener_grupo_muscular(e.ejercicio)
+        volumen = int(e.series or 0) * int(e.repeticiones or 0) * float(e.peso or 0)
+        volumen_por_semana_y_grupo[semana][grupo] += volumen
+
+    datos = []
+    for semana, grupos in sorted(volumen_por_semana_y_grupo.items()):
+        for grupo, volumen in grupos.items():
+            datos.append({
+                "semana": semana,
+                "grupo": grupo,
+                "volumen": volumen
             })
 
-        # Devolvemos el diccionario con los datos listos para graficar
-        return data
-
-    except Exception as e:
-        print("Error en progreso_peso:", str(e))
-        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+    return datos
 
 
 
+#RUTAS DINÁMICAS
 # Crear un nuevo entrenamiento
 @router.post("/", response_model=EntrenamientoOut)
 def crear_entrenamiento(data: EntrenamientoCreate, db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
@@ -65,14 +88,6 @@ def crear_entrenamiento(data: EntrenamientoCreate, db: Session = Depends(get_db)
 @router.get("/", response_model=List[EntrenamientoOut])
 def obtener_entrenamientos(db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
     return db.query(Entrenamiento).filter(Entrenamiento.id_usuario == usuario.id_usuario).all()
-
-#Obtener un entrenamiento por ID
-@router.get("/{entrenamiento_id}", response_model=EntrenamientoOut)
-def obtener_entrenamiento(entrenamiento_id: int, db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
-    entrenamiento = db.query(Entrenamiento).filter_by(id_entrenamiento=entrenamiento_id, id_usuario=usuario.id_usuario).first()
-    if not entrenamiento:
-        raise HTTPException(status_code=404, detail="Entrenamiento no encontrado")
-    return entrenamiento
 
 #Actualizar un entrenamiento
 @router.put("/{entrenamiento_id}", response_model=EntrenamientoOut)
@@ -99,4 +114,11 @@ def eliminar_entrenamiento(entrenamiento_id: int, db: Session = Depends(get_db),
     db.commit()
     return {"detalle": "Entrenamiento eliminado correctamente"}
 
+#Obtener un entrenamiento por ID
+@router.get("/{entrenamiento_id}", response_model=EntrenamientoOut)
+def obtener_entrenamiento(entrenamiento_id: int, db: Session = Depends(get_db), usuario = Depends(obtener_usuario_actual)):
+    entrenamiento = db.query(Entrenamiento).filter_by(id_entrenamiento=entrenamiento_id, id_usuario=usuario.id_usuario).first()
+    if not entrenamiento:
+        raise HTTPException(status_code=404, detail="Entrenamiento no encontrado")
+    return entrenamiento
 

@@ -11,6 +11,10 @@ import EstadoAnimoPage from './pages/EstadoAnimoPage';
 import AlimentacionPage from './pages/AlimentacionPage';
 import AnalisisEntrenamientosPage from './pages/AnalisisEntrenamientosPage';
 import Register from "./pages/Register";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+
 
 function AppContent() {
   const location = useLocation();

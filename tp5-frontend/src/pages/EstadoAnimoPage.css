@@ -1,0 +1,87 @@
+/* src/pages/EstadoAnimoPage.css */
+.estado-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form input[type="date"],
+.form input[type="text"],
+.form input[type="number"] {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.form label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.form button {
+  grid-column: span 2;
+  background-color: #ffd700;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form button:hover {
+  background-color: #e6c200;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 0.7rem;
+  text-align: center;
+}
+
+.table th {
+  background-color: #ffd700;
+  color: #2c2c2c;
+  font-weight: 700;
+}
+
+.table button {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 0.2rem;
+}
+
+.table button:hover {
+  background-color: darkred;
+}

@@ -1,0 +1,93 @@
+.medidas-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.medidas-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #2c2c2c;
+  margin-bottom: 1.5rem;
+}
+
+.medidas-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.medidas-form input {
+  padding: 0.7rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.medidas-form button {
+  grid-column: span 2;
+  background-color: #ffd700;
+  color: #2c2c2c;
+  font-weight: bold;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.medidas-form button:hover {
+  background-color: #e6c200;
+}
+
+/* Tabla estilos */
+.medidas-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  font-size: 1rem;
+}
+
+.medidas-table thead {
+  background-color: #ffd700;
+  color: #2c2c2c;
+}
+
+.medidas-table th {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.medidas-table td button {
+  display: inline-block;
+  margin: 0 0.3rem;
+}
+
+.medidas-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.medidas-table tbody tr:hover {
+  background-color: #fff2b3;
+}
+
+.medidas-table button {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0 0.15rem;
+  transition: background-color 0.3s ease;
+}
+
+.medidas-table button:hover {
+  background-color: darkred;
+}

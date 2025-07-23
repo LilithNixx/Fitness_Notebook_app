@@ -16,14 +16,22 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#2c2c2c" }}>
+    /* 
+      - navbar-dark: indica que el texto será claro (ideal para fondos oscuros)
+      - bg-dark: color de fondo gris oscuro de Bootstrap
+      Si querés tu color #2c2c2c en vez de bg-dark, puedes usar:
+      className="navbar navbar-expand-lg navbar-dark" 
+      style={{ backgroundColor: "#2c2c2c" }}
+    */
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        {/* Marca / Logo */}
+        {/* Logo / marca */}
         <Link
           className="navbar-brand"
           to="/inicio"
+          // color dorado y negrita
           style={{ color: "#ffd700", fontWeight: "bold" }}
-          onClick={() => setIsCollapsed(true)} // cierra menú al click en logo
+          onClick={() => setIsCollapsed(true)}
         >
           Fitness Notebook
         </Link>
@@ -35,14 +43,16 @@ export default function NavBar() {
           aria-controls="navbarNav"
           aria-expanded={!isCollapsed}
           aria-label="Toggle navigation"
-          style={{ borderColor: "#ffd700" }}
           onClick={toggleNavbar}
         >
-          <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
+          <span className="navbar-toggler-icon" />
         </button>
 
         {/* Menú colapsable */}
-        <div className={`collapse navbar-collapse${isCollapsed ? '' : ' show'}`} id="navbarNav">
+        <div
+          className={`collapse navbar-collapse${isCollapsed ? "" : " show"}`}
+          id="navbarNav"
+        >
           <ul className="navbar-nav ms-auto">
             {[
               { to: "/inicio", label: "Inicio" },
@@ -56,33 +66,34 @@ export default function NavBar() {
                 <NavLink
                   to={to}
                   className={({ isActive }) =>
-                    "nav-link " + (isActive ? "text-warning fw-bold" : "text-white")
+                    /* text-white por defecto, text-warning + bold si activo */
+                    "nav-link " +
+                    (isActive ? "text-warning fw-bold" : "text-white")
                   }
-                  onClick={() => setIsCollapsed(true)} // cierra menú al click en link
+                  onClick={() => setIsCollapsed(true)}
                 >
                   {label}
                 </NavLink>
               </li>
             ))}
 
-            {/* Botón Cerrar sesión */}
-              <li className="nav-item">
-                <button
-                  className="nav-link text-white"
-                  onClick={handleLogout}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    fontSize: "1rem",
-                    fontWeight: 400,
-                    padding: "0.5rem 1rem",
-                    cursor: "pointer"
-                  }}
-                  onMouseOver={(e) => e.target.classList.add("text-warning")}
-                  onMouseOut={(e) => e.target.classList.remove("text-warning")}
-                >
-                  Cerrar sesión
-                </button>
+            {/* Botón cerrar sesión estilo nav-link */}
+            <li className="nav-item">
+              <button
+                className="nav-link"
+                onClick={handleLogout}
+                // estilo inline para remover bordes y fondo
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  fontWeight: 400,
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                }}
+              >
+                Cerrar sesión
+              </button>
             </li>
           </ul>
         </div>
