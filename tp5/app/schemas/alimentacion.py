@@ -5,7 +5,7 @@ class AlimentacionBase(BaseModel):
     fecha: date
     calorias: int
     proteinas: float
-    agua: float
+    agua_litros: float
 
 class AlimentacionCreate(AlimentacionBase):
     pass

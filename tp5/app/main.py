@@ -23,9 +23,9 @@ app.add_middleware(
 
 
 # Incluir las rutas
-app.include_router(usuarios.router, prefix="/api")
-app.include_router(inicio.router, prefix="/api")
-app.include_router(entrenamiento.router, prefix="/api")
-app.include_router(medidas.router, prefix="/api") 
-app.include_router(estado_animo.router, prefix="/api")
-app.include_router(alimentacion.router)
+app.include_router(usuarios.router, prefix="/api", tags=["Usuarios"])
+app.include_router(inicio.router, prefix="/api", tags=["Inicio"])
+app.include_router(entrenamiento.router, prefix="/api", tags=["Entrenamiento"])
+app.include_router(medidas.router, prefix="/api", tags=["Medidas"]) 
+app.include_router(estado_animo.router, prefix="/api", tags=["Estado de Ánimo"])
+app.include_router(alimentacion.router, prefix="/api", tags=["Alimentación"])
