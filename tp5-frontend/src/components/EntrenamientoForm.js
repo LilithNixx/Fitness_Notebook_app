@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { crearEntrenamiento, editarEntrenamiento } from "../services/api";
 
-// IMPORTANTE: asegurate de incluir Orbitron en index.html o App.css
-// <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
-
 const gruposMusculares = {
   Piernas: [
     "Sentadillas",
