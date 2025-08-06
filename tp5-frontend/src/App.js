@@ -48,8 +48,6 @@ function App() {
   return (
     <div style={{ backgroundColor: "#cccccc", minHeight: "100vh" }}>
       <Router>
-      <p>Estoy en la página de alimentación</p>
-
         <AppContent />
       </Router>
     </div>

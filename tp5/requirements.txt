@@ -1,0 +1,20 @@
+# Framework principal para construir la API
+fastapi
+
+# Servidor ASGI recomendado para correr FastAPI (incluye uvicorn, httptools, etc.)
+uvicorn[standard]
+
+# ORM para interactuar con la base de datos
+sqlalchemy
+
+# Driver para conectarse a MySQL usando SQLAlchemy
+pymysql  
+
+# Valida que un email tenga el formato correcto (por ejemplo, en registros)
+email-validator
+
+ # Permite hashear y verificar contraseñas de forma segura usando bcrypt
+ passlib[bcrypt]
+
+ # Manejo de JWT para autenticación
+ python-jose[cryptography]

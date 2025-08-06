@@ -27,7 +27,7 @@ def progreso_peso(db: Session = Depends(get_db), usuario = Depends(obtener_usuar
     )
 
     if not resultados:
-        raise HTTPException(status_code=404, detail="No hay datos para este usuario")
+        return []
 
     data = {}
     for fecha, ejercicio, peso_max in resultados:
@@ -122,3 +122,6 @@ def obtener_entrenamiento(entrenamiento_id: int, db: Session = Depends(get_db), 
         raise HTTPException(status_code=404, detail="Entrenamiento no encontrado")
     return entrenamiento
 
+@router.get("/test")
+def test():
+    return {"msg": "Entrenamiento router funcionando"}

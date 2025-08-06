@@ -21,7 +21,7 @@ export default function ProgresoPesoChart() {
             Authorization: `Bearer ${token}`,
           },
         });
-
+z
         if (!response.ok) {
           throw new Error(`Error al obtener datos: ${response.status} ${response.statusText}`);
         }
@@ -38,6 +38,9 @@ export default function ProgresoPesoChart() {
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   if (!data) return <p>Cargando datos...</p>;
+  if (data && Object.keys(data).length === 0) {
+  return <p>No hay datos para mostrar aún.</p>;
+}
 
   const datasets = Object.entries(data).map(([ejercicio, puntos], i) => ({
     label: ejercicio,

@@ -4,7 +4,8 @@ from jose import JWTError, jwt
 
 SECRET_KEY = "mi_clave_secreta"
 ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
+
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:

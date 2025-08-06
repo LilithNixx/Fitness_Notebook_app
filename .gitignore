@@ -1,12 +1,42 @@
-# En Fitness-Notebook/.gitignore
+# --- FRONTEND ---
 
-# Node modules para frontend
+# Dependencias de Node.js
 tp5-frontend/node_modules/
 
-# Entorno virtual para backend si no está en tp5/.gitignore
+# Archivos de compilación de React
+tp5-frontend/build/
+
+# Archivos temporales
+tp5-frontend/.env
+tp5-frontend/.DS_Store
+tp5-frontend/npm-debug.log*
+tp5-frontend/yarn-debug.log*
+tp5-frontend/yarn-error.log*
+
+# --- BACKEND ---
+
+# Entorno virtual de Python
 tp5/env/
 
-# Archivos comunes a ignorar
+# Compilaciones de Python
+tp5/__pycache__/
+tp5/*.pyc
+tp5/*.pyo
+
+# Archivos de configuración sensibles
+tp5/.env
+
+# --- GENERAL ---
+
+# Logs
 *.log
+
+# Configuración de sistema
 .DS_Store
-.env
+Thumbs.db
+
+# Archivos de volúmenes de Docker (si generás volúmenes en local)
+mysql-data/
+
+# Evitar subir archivos de VS Code (opcionales)
+.vscode/
