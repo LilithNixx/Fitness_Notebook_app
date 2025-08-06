@@ -21,7 +21,7 @@ export default function ProgresoPesoChart() {
             Authorization: `Bearer ${token}`,
           },
         });
-z
+
         if (!response.ok) {
           throw new Error(`Error al obtener datos: ${response.status} ${response.statusText}`);
         }
