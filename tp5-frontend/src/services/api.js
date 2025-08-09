@@ -1,4 +1,4 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL || '/api';
+const API_BASE = process.env.production.REACT_APP_API_BASE_URL || '/api';
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');
