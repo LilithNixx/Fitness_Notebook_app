@@ -1,7 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE } from '.env.production';
+import { API_BASE } from '../.env.production';
 
 function Login() {
   const [email, setEmail] = useState('');
