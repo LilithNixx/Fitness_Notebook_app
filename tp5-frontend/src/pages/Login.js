@@ -1,6 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE } from '.env.production';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ function Login() {
     console.log("🔍 Se presionó el botón y se disparó handleSubmit");
 
     try {
-      const response = await fetch(`${API_BASE}/api/login}}`, {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, contraseña }),
