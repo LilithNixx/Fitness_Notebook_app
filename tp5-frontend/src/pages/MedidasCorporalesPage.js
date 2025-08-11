@@ -20,7 +20,7 @@ function MedidasCorporalesPage() {
 
   const fetchMedidas = async () => {
     const token = localStorage.getItem('token');
-    const res = await fetch('http://127.0.0.1:8000/api/medidas/', {
+  const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/medidas/`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -37,8 +37,8 @@ function MedidasCorporalesPage() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     const url = editId
-      ? `http://127.0.0.1:8000/api/medidas/${editId}`
-      : 'http://127.0.0.1:8000/api/medidas/';
+      ? `${process.env.REACT_APP_API_BASE_URL}/api/medidas/${editId}`
+      : `${process.env.REACT_APP_API_BASE_URL}/api/medidas/`;
     const method = editId ? 'PUT' : 'POST';
 
     await fetch(url, {
@@ -64,7 +64,7 @@ function MedidasCorporalesPage() {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    await fetch(`http://127.0.0.1:8000/api/medidas/${id}`, {
+  await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/medidas/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`

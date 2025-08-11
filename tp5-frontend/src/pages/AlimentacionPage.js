@@ -9,7 +9,7 @@ function AlimentacionPage() {
   const token = localStorage.getItem("token");
 
   const fetchRegistros = async () => {
-    const response = await fetch("http://localhost:8000/api/alimentacion/", {
+  const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/alimentacion/`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -22,8 +22,8 @@ function AlimentacionPage() {
 
   const handleGuardar = async (registro) => {
     const url = registro.id
-      ? `http://localhost:8000/api/alimentacion/${registro.id}/`
-      : "http://localhost:8000/api/alimentacion/";
+      ? `${process.env.REACT_APP_API_BASE_URL}/api/alimentacion/${registro.id}/`
+      : `${process.env.REACT_APP_API_BASE_URL}/api/alimentacion/`;
 
     const method = registro.id ? "PUT" : "POST";
 
@@ -48,7 +48,7 @@ function AlimentacionPage() {
     const confirmacion = window.confirm("¿Seguro que querés eliminar este registro?");
     if (!confirmacion) return;
 
-    const response = await fetch(`http://localhost:8000/api/alimentacion/${id}/`, {
+  const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/alimentacion/${id}/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

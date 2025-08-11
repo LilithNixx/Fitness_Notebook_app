@@ -7,7 +7,7 @@ export default function CircunferenciasChart() {
   useEffect(() => {
     const fetchMedidas = async () => {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://127.0.0.1:8000/api/medidas/', {
+  const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/medidas/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

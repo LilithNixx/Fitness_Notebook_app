@@ -16,7 +16,7 @@ export default function ProgresoPesoChart() {
           return;
         }
 
-        const response = await fetch("http://127.0.0.1:8000/api/entrenamientos/progreso-peso", {
+  const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/entrenamientos/progreso-peso`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

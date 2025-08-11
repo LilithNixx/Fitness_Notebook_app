@@ -11,7 +11,7 @@ export default function VolumenChart() {
     async function fetchData() {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://127.0.0.1:8000/api/entrenamientos/volumen', {
+  const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/entrenamientos/volumen`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

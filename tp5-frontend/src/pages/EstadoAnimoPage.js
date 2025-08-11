@@ -19,7 +19,7 @@ function EstadoAnimoPage() {
   const fetchEstados = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://127.0.0.1:8000/api/estadoanimo/', {
+  const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/estadoanimo/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -53,8 +53,8 @@ function EstadoAnimoPage() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     const url = editId
-      ? `http://127.0.0.1:8000/api/estadoanimo/${editId}`
-      : 'http://127.0.0.1:8000/api/estadoanimo/';
+      ? `${process.env.REACT_APP_API_BASE_URL}/api/estadoanimo/${editId}`
+      : `${process.env.REACT_APP_API_BASE_URL}/api/estadoanimo/`;
     const method = editId ? 'PUT' : 'POST';
 
     try {
@@ -83,7 +83,7 @@ function EstadoAnimoPage() {
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/estadoanimo/${id}`, {
+  const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/estadoanimo/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
