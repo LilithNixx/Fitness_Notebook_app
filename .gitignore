@@ -17,6 +17,8 @@ tp5-frontend/yarn-error.log*
 
 # Entorno virtual de Python
 tp5/env/
+.venv/
+**/.venv/
 
 # Compilaciones de Python
 tp5/__pycache__/
