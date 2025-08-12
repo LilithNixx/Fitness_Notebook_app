@@ -1,5 +1,5 @@
 const API_BASE = process.env.REACT_APP_API_BASE_URL || '/api';
-
+console.log('API_BASE:', API_BASE);
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');
@@ -7,7 +7,7 @@ function getAuthHeaders() {
 }
 
 export async function crearUsuario(data) {
-  const res = await fetch(`${API_BASE}/usuarios/`, {
+  const res = await fetch(`${API_BASE}/api/usuarios/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export async function crearUsuario(data) {
 }
 
 export async function getEntrenamientos() {
-  const response = await fetch(`${API_BASE}/entrenamientos/`, {
+  const response = await fetch(`${API_BASE}/api/entrenamientos/`, {
     headers: getAuthHeaders(),
   });
 
@@ -36,7 +36,7 @@ export async function getEntrenamientos() {
 }
 
 export async function crearEntrenamiento(data) {
-  const res = await fetch(`${API_BASE}/entrenamientos/`, {
+  const res = await fetch(`${API_BASE}/api/entrenamientos/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export async function crearEntrenamiento(data) {
 }
 
 export async function eliminarEntrenamiento(id) {
-  const res = await fetch(`${API_BASE}/entrenamientos/${id}`, {
+  const res = await fetch(`${API_BASE}/api/entrenamientos/${id}`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
   });
@@ -63,7 +63,7 @@ export async function eliminarEntrenamiento(id) {
 }
 
 export async function editarEntrenamiento(id, data) {
-  const res = await fetch(`${API_BASE}/entrenamientos/${id}`, {
+  const res = await fetch(`${API_BASE}/api/entrenamientos/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
