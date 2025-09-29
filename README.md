@@ -252,7 +252,7 @@ curl fue esencial para probar endpoints, comprobar tokens JWT y confirmar respue
 
 ✅ Buenas prácticas / workflow recomendado (Git)
 
-Mantener una rama estable (pruebas o main) con la versión que corre en producción o entrega.
+Mantener una rama estable (pruebas o master) con la versión que corre en producción o entrega.
 
 Crear ramas por feature (feature/login-fix, feature/nginx-config) y mergear con PRs.
 
